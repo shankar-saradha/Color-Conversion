@@ -164,3 +164,144 @@ head=req[i];
 printf("Total head Movement: %d",thm);
 }
 ~~~
+## CPU ROUND ROBIN
+~~~C 
+#include<stdio.h>
+int main()
+{
+int n,q,sum=0;
+printf("Enter the number of process:");
+scanf("%d",&n);
+int list[n];
+printf("\nEnter quantum time:");
+scanf("%d",&q);
+for(int i=0;i<n;i++){
+printf("\nEnter the Burst time for process %d :",i);
+scanf("%d",&list[i]);
+sum+=list[i];
+}
+int flag[n];
+for(int i=0;i<n;i++){
+flag[i]=0;
+}
+int count=0,time=0,tt=0;
+while(count!=n){
+for(int i=0;i<n;i++){
+if(flag[i]==0){
+if(list[i]>q){
+list[i]-=q;
+time+=q;
+}
+else{
+time+=list[i];
+list[i]=0;
+flag[i]=1;
+count++;
+tt+=time;
+}
+}
+}
+}
+printf("\nAverage Turn around time= %f",tt/3.0);
+printf("\nAverage waiting Time= %f",(tt-sum)/3.0);
+}
+~~~
+## CPU FDFS 
+~~~c
+CPU FDFS:
+#include <stdio.h>
+int main() {
+int n,avg_waittime=0,avg_turntime=0;
+printf("Enter the number of processes: ");
+scanf("%d",&n);
+int list[n];
+for(int i=0;i<n;i++){
+printf("\n Process %d :",i);
+scanf("%d",&list[i]);
+}
+avg_turntime=list[0];
+for(int i=0;i<n-1;i++){
+avg_waittime+=avg_waittime+list[i];
+avg_turntime+=list[i+1];
+}
+avg_turntime=avg_turntime+avg_waittime;
+printf("Average waiting time = %f",avg_waittime/3.0);
+printf("\nAverage turnaround time = %f",avg_turntime/3.0)
+~~~
+## CPY SHORTEST JOB 
+~~~c
+#include <stdio.h>
+int main() {
+int n,avg_waittime=0,avg_turntime=0;
+printf("Enter the number of processes: ");
+scanf("%d",&n);
+int list[n];
+for(int i=0;i<n;i++){
+printf("\n Process %d burst time:",i);
+scanf("%d",&list[i]);
+}
+for(int i=0;i<n;i++){
+for(int j=0;j<n;j++){
+if(list[j]>list[j+1]){
+int temp=list[j];
+list[j]=list[j+1];
+list[j+1]=temp;
+}
+}
+}
+avg_turntime=list[0];
+for(int i=0;i<n-1;i++){
+avg_waittime+=avg_waittime+list[i];
+avg_turntime+=list[i+1];
+}
+avg_turntime=avg_turntime+avg_waittime;
+printf("Average waiting time = %f",avg_waittime/3.0);
+printf("\nAverage turnaround time = %f",avg_turntime/3.0);
+}
+~~~
+## CPU PRIORTY 
+~~~c 
+CPU Priority:
+#include <stdio.h>
+int main() {
+int n,avg_waittime=0,avg_turntime=0;
+printf("Enter the number of processes: ");
+scanf("%d",&n);
+int list[n];
+for(int i=0;i<n;i++){
+printf("\n Process %d burst time:",i);
+scanf("%d",&list[i]);
+}
+int prio[n];
+for(int i=0;i<n;i++){
+printf("\n Process %d Priority:",i);
+scanf("%d",&prio[i]);
+}
+for(int i=0;i<n;i++){
+printf("\n pList:%d",list[i]);
+}
+for(int i=0;i<n;i++){
+for(int j=0;j<n-1;j++){
+if(prio[j]>prio[j+1]){
+int temp=prio[j];
+prio[j]=prio[j+1];
+prio[j+1]=temp;
+int temp1=list[j];
+list[j]=list[j+1];
+list[j+1]=temp1;
+}
+}
+}
+for(int i=0;i<n;i++){
+printf("\n List:%d",list[i]);
+}
+avg_turntime=list[0];
+for(int i=0;i<n-1;i++){
+avg_waittime+=avg_waittime+list[i];
+avg_turntime+=list[i+1];
+}
+avg_turntime=avg_turntime+avg_waittime;
+printf("Average waiting time = %f",avg_waittime/3.0);
+printf("\nAverage turnaround time = %f",avg_turntime/3.0);
+}
+~~~
